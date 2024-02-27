@@ -58,6 +58,18 @@ const Login = () => {
     }
   };
 
+  //Create switch functionality to switch to registration form
+  const doSwitch = () => {
+    try{
+      navigate("/register");
+    }
+    catch (error) {
+      alert(
+        `Could not switch to registration form: \n${handleError(error)}`
+      );
+    }
+  }
+
   return (
     <BaseContainer>
       <div className="login container">
@@ -72,6 +84,15 @@ const Login = () => {
             value={name}
             onChange={(n) => setName(n)}
           />
+          {/*Create button to switch to registration form*/}
+          <div className="switch login-register">
+            <Button
+              width="100%"
+              onClick={() => doSwitch()}
+              >
+              Switch
+            </Button>
+          </div>
           <div className="login button-container">
             <Button
               disabled={!username || !name}
