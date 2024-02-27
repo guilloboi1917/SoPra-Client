@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { api, handleError } from "helpers/api";
 import User from "models/User";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "components/ui/Button";
 import "styles/views/Login.scss";
 import BaseContainer from "components/ui/BaseContainer";
@@ -60,7 +60,7 @@ const Login = () => {
 
   //Create switch functionality to switch to registration form
   const doSwitch = () => {
-    try{
+    try {
       navigate("/register");
     }
     catch (error) {
@@ -89,7 +89,7 @@ const Login = () => {
             <Button
               width="100%"
               onClick={() => doSwitch()}
-              >
+            >
               Switch
             </Button>
           </div>
