@@ -55,7 +55,7 @@ const Profile = () => {
         return (
             <BaseContainer className="profile container">
                 <Player user={user} />
-                <Button width = "10%">Edit Profile</Button>
+                <Button width="10%">Edit Profile</Button>
             </BaseContainer>);
     }
     else {
