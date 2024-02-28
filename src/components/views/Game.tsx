@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { api, handleError } from "helpers/api";
 import { Spinner } from "components/ui/Spinner";
 import { Button } from "components/ui/Button";
-import {useNavigate} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import "styles/views/Game.scss";
@@ -11,7 +11,7 @@ import { User } from "types";
 const Player = ({ user }: { user: User }) => (
   <div className="player container">
     <div className="player username">{user.username}</div>
-    <div className="player name">{user.name}</div>
+    {/* <div className="player name">{user.password}</div> */}
     <div className="player id">id: {user.id}</div>
   </div>
 );
@@ -35,6 +35,10 @@ const Game = () => {
     localStorage.removeItem("token");
     navigate("/login");
   };
+
+  const loadProfile = (user): void => {
+    navigate(`/game/profile`, { state: { user : user } });
+  }
 
   // the effect hook can be used to react to change in your component.
   // in this case, the effect hook is only run once, the first time the component is mounted
@@ -86,7 +90,7 @@ const Game = () => {
       <div className="game">
         <ul className="game user-list">
           {users.map((user: User) => (
-            <li key={user.id}>
+            <li key={user.id} onClick={() => loadProfile(user)}>
               <Player user={user} />
             </li>
           ))}

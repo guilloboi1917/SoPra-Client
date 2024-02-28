@@ -35,16 +35,24 @@ FormField.propTypes = {
 
 const Login = () => {
   const navigate = useNavigate();
-  const [name, setName] = useState<string>(null);
+  const [password, setPassword] = useState<string>(null);
   const [username, setUsername] = useState<string>(null);
 
   const doLogin = async () => {
     try {
-      const requestBody = JSON.stringify({ username, name });
-      const response = await api.post("/users", requestBody);
+      const requestBody = JSON.stringify({ username, password });
+      // const response = await api.post("/users", requestBody);
+      const response = await api.get("/users", requestBody);
 
       // Get the returned user and update a new object.
       const user = new User(response.data);
+
+      const userEntry = response.data.find(item => item.username === username);
+
+      if (userEntry.password !== password) {
+        throw new Error("Invalid Password");
+      }
+
 
       // Store the token into the local storage.
       localStorage.setItem("token", user.token);
@@ -80,9 +88,9 @@ const Login = () => {
             onChange={(un: string) => setUsername(un)}
           />
           <FormField
-            label="Name"
-            value={name}
-            onChange={(n) => setName(n)}
+            label="Password"
+            value={password}
+            onChange={(n) => setPassword(n)}
           />
           {/*Create button to switch to registration form*/}
           <div className="switch login-register">
@@ -95,7 +103,7 @@ const Login = () => {
           </div>
           <div className="login button-container">
             <Button
-              disabled={!username || !name}
+              disabled={!username || !password}
               width="100%"
               onClick={() => doLogin()}
             >

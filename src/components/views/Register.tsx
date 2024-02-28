@@ -29,12 +29,12 @@ FormField.propTypes = {
 
 const Register = () => {
   const navigate = useNavigate();
-  const [name, setName] = useState<string>(null);
+  const [password, setPassword] = useState<string>(null);
   const [username, setUsername] = useState<string>(null);
 
   const doRegister = async () => {
     try {
-      const requestBody = JSON.stringify({ username, name });
+      const requestBody = JSON.stringify({ username, password });
       const response = await api.post("/users", requestBody);
 
       // Get the returned user and update a new object.
@@ -48,7 +48,7 @@ const Register = () => {
       )
 
       setTimeout(() => {
-        navigate("/login")
+        navigate("/game")
       }, 1000);
 
       //Navigate to login page
@@ -82,9 +82,9 @@ const Register = () => {
             onChange={(un: string) => setUsername(un)}
           />
           <FormField
-            label="Name"
-            value={name}
-            onChange={(n) => setName(n)}
+            label="Password"
+            value={password}
+            onChange={(n) => setPassword(n)}
           />
           {/*Create button to switch to registration form*/}
           <div className="switch login-register">
@@ -97,7 +97,7 @@ const Register = () => {
           </div>
           <div className="register button-container">
             <Button
-              disabled={!username || !name}
+              disabled={!username || !password}
               width="100%"
               onClick={() => doRegister()}
             >
