@@ -20,19 +20,37 @@ Player.propTypes = {
     user: PropTypes.object,
 };
 
+//To edit --> get local storage token and compare to profile token.
+//If exists then enable editing
+
 const Profile = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    let data = location.state.user
+    let data = location.state.user;
 
     const [user, setUser] = useState(data);
 
-    return (<BaseContainer className="profile container">
-        <p className="profile paragraph">
+    const getUser = async () => {
+        try {
+            var token = localStorage.getItem("token")
+            const response = await api.get("/users/" + user.id + "/");
+            console.log(response);
+
+        }
+        catch (error) {
+            alert(`
+            ${handleError(error)}
+            `);
+        }
+    }
+
+    getUser();
+
+    return (
+        <BaseContainer className="profile container">
             <Player user={user} />
-        </p>
-    </BaseContainer>);
+        </BaseContainer>);
 
 };
 

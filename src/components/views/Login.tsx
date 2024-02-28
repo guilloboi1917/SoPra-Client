@@ -40,22 +40,16 @@ const Login = () => {
 
   const doLogin = async () => {
     try {
-      const requestBody = JSON.stringify({ username, password });
+      const requestBody = JSON.stringify( {username, password} );
       // const response = await api.post("/users", requestBody);
-      const response = await api.get("/users", requestBody);
+      const authenticateResponse = await api.post("/users/authenticate/", requestBody);
 
       // Get the returned user and update a new object.
-      const user = new User(response.data);
-
-      const userEntry = response.data.find(item => item.username === username);
-
-      if (userEntry.password !== password) {
-        throw new Error("Invalid Password");
-      }
-
+      const user = new User(authenticateResponse.data);
 
       // Store the token into the local storage.
       localStorage.setItem("token", user.token);
+
 
       // Login successfully worked --> navigate to the route /game in the GameRouter
       navigate("/game");
