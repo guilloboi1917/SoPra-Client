@@ -7,6 +7,7 @@ import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import "styles/views/Profile.scss";
 import { User } from "types";
+import { all } from "axios";
 
 const Player = ({ user }: { user: User }) => (
     <div className="player container">
@@ -30,28 +31,40 @@ const Profile = () => {
     let data = location.state.user;
 
     const [user, setUser] = useState(data);
+    const [allowEdit, setAllowEdit] = useState(false);
 
-    const getUser = async () => {
-        try {
-            var token = localStorage.getItem("token")
-            const response = await api.get("/users/" + user.id + "/");
-            console.log(response);
+    useEffect(() => {
+        async function getUser() {
+            try {
+                var token = localStorage.getItem("token");
 
-        }
-        catch (error) {
-            alert(`
+                const response = await api.get("/users/" + user.id + "/" + token);
+                setAllowEdit(response.data.id === user.id);
+                console.log(allowEdit);
+            }
+            catch (error) {
+                alert(`
             ${handleError(error)}
             `);
+            }
         }
+        getUser();
+    },);
+
+    if (allowEdit) {
+        return (
+            <BaseContainer className="profile container">
+                <Player user={user} />
+                <Button width = "10%">Edit Profile</Button>
+            </BaseContainer>);
     }
-
-    getUser();
-
-    return (
-        <BaseContainer className="profile container">
-            <Player user={user} />
-        </BaseContainer>);
-
+    else {
+        return (
+            <BaseContainer className="profile container">
+                <Player user={user} />
+                Editing not allowed
+            </BaseContainer>);
+    }
 };
 
 export default Profile;

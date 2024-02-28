@@ -37,7 +37,7 @@ const Game = () => {
   };
 
   const loadProfile = (user): void => {
-    navigate(`/game/profile`, { state: { user : user } });
+    navigate("/game/profile", { state: { user : user } });
   }
 
   // the effect hook can be used to react to change in your component.

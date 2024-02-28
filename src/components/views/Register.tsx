@@ -37,11 +37,14 @@ const Register = () => {
       const requestBody = JSON.stringify({ username, password });
       const response = await api.post("/users", requestBody);
 
+      const authenticateResponse = await api.post("/users/authenticate/", requestBody);
+
       // Get the returned user and update a new object.
-      const user = new User(response.data);
+      const user = new User(authenticateResponse.data);
 
       // Store the token into the local storage.
       localStorage.setItem("token", user.token);
+      console.log(user.token);
 
       alert(
         `${username} successfully registrated! Navigating to login page...`
