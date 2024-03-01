@@ -46,6 +46,7 @@ const Login = () => {
 
       // Get the returned user and update a new object.
       const user = new User(authenticateResponse.data);
+      console.log(user);
 
       // Store the token into the local storage.
       localStorage.setItem("token", user.token);

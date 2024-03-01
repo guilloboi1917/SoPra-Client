@@ -35,7 +35,7 @@
 .player {
   &.container {
     margin: 0.5em 0;
-    width: 20em;
+    width: 25em;
     padding: 10px;
     border-radius: $borderRadius;
     display: flex;
@@ -49,11 +49,17 @@
   &.username {
     font-weight: 500;
     color: $accent;
+    margin-left: 5px;
   }
   &.id {
     margin-left: auto;
     margin-right: 10px;
     font-family: $fontMono;
     font-weight: 300;
+  }
+  &.birthday{
+    font-family: $fontMono;
+    font-weight:300;
+    margin-left:auto;
   }
 }

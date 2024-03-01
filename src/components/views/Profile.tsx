@@ -13,6 +13,7 @@ const Player = ({ user }: { user: User }) => (
     <div className="player container">
         <div className="player username">{user.username}</div>
         {/* <div className="player name">{user.password}</div> */}
+        {user.birthday && <div className="player birthday">birthday: {user.birthday}</div>}
         <div className="player id">id: {user.id}</div>
     </div>
 );
@@ -32,6 +33,21 @@ const Profile = () => {
 
     const [user, setUser] = useState(data);
     const [allowEdit, setAllowEdit] = useState(false);
+    const [birthday, setBirthday] = useState(user.birthday);
+
+    const doChange = async() => {
+        try {
+            setBirthday("testBirthday");
+            console.log(birthday);
+            const requestBody = JSON.stringify({birthday});
+            //change this so we have to use token to update
+            const response = await api.post("/users/"+ user.id, requestBody);
+        }catch (error) {
+            alert(
+              `Something went wrong: \n${handleError(error)}`
+            );
+          }
+    }
 
     useEffect(() => {
         async function getUser() {
@@ -55,14 +71,14 @@ const Profile = () => {
         return (
             <BaseContainer className="profile container">
                 <Player user={user} />
-                <Button width="10%">Edit Profile</Button>
+                <Button width="20%" onClick = {() => doChange()}>Edit Profile</Button>
             </BaseContainer>);
     }
     else {
         return (
             <BaseContainer className="profile container">
                 <Player user={user} />
-                Editing not allowed
+                <Button width="20%" onClick = {() => alert("Editing not allowed!")}>Edit Profile</Button>
             </BaseContainer>);
     }
 };
