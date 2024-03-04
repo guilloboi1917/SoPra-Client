@@ -17,17 +17,21 @@
     align-items: center;
     box-shadow: $dropShadow;
   }
+
   &.user-list {
     list-style: none;
     padding-left: 0;
   }
+
   &.user-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
   }
-  & p,h2 {
+
+  & p,
+  h2 {
     margin: 0.5em 0;
   }
 }
@@ -41,19 +45,34 @@
     display: flex;
     align-items: center;
     background: lighten($background, 5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    &:hover {
+      transform: translateY(-2px);
+    }
+
   }
+
   &.name {
     font-weight: 300;
     margin-left: 5px;
   }
+
   &.username {
     font-weight: 500;
     color: $accent;
   }
+
   &.id {
     margin-left: auto;
     margin-right: 10px;
     font-family: $fontMono;
     font-weight: 300;
+  }
+
+  &.view {
+    font-style: italic;
+    margin-left: auto;
+    opacity: 25%;
   }
 }

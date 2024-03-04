@@ -34,6 +34,13 @@ FormField.propTypes = {
 };
 
 const Login = () => {
+  //remove any token residual
+  if(localStorage.getItem("token")){
+    localStorage.removeItem("token");
+  }
+  if(localStorage.getItem("id")){
+    localStorage.removeItem("id");
+  }
   const navigate = useNavigate();
   const [password, setPassword] = useState<string>(null);
   const [username, setUsername] = useState<string>(null);
@@ -41,15 +48,15 @@ const Login = () => {
   const doLogin = async () => {
     try {
       const requestBody = JSON.stringify( {username, password} );
-      // const response = await api.post("/users", requestBody);
       const authenticateResponse = await api.post("/users/authenticate/", requestBody);
-
       // Get the returned user and update a new object.
       const user = new User(authenticateResponse.data);
-      console.log(user);
 
       // Store the token into the local storage.
       localStorage.setItem("token", user.token);
+
+      //Store user data
+      localStorage.setItem("id", user.id);
 
 
       // Login successfully worked --> navigate to the route /game in the GameRouter

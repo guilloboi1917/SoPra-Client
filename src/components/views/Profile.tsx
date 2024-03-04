@@ -10,7 +10,7 @@ import { User } from "types";
 import { all } from "axios";
 
 
-const ProfilePage = ({ user }: { user: User }, props) => (
+const ProfilePage = ({ user }: { user: User }) => (
     <div className="profilepage container">
         <div className="profilepage username">{user.username}</div>
         <div className={user.status === "ONLINE" ? "profilepage statusOn" : "profilepage statusOff"}>{user.status}</div>
@@ -23,13 +23,14 @@ ProfilePage.propTypes = {
     user: PropTypes.object,
 };
 
+//SET classnames for appropriate scss
 const FormField = (props) => {
     return (
         <div className="login field">
             <label className="login label">{props.label}</label>
             <input
                 className="login input"
-                placeholder="enter here.."
+                placeholder= {props.placeholder !== null ? props.placeholder :"enter here.."}
                 value={props.value}
                 onChange={(e) => props.onChange(e.target.value)}
             />
@@ -40,6 +41,7 @@ const FormField = (props) => {
 FormField.propTypes = {
     label: PropTypes.string,
     value: PropTypes.string,
+    placeholder: PropTypes.string,
     onChange: PropTypes.func,
 };
 
@@ -60,7 +62,10 @@ const Profile = () => {
             const requestBody = JSON.stringify({ username, birthday });
             var token = localStorage.getItem("token");
             const response = await api.put("/users/" + user.id + "/" + token, requestBody);
+            const userResponse = await api.get("/users/" + user.id + "/" + token);
+            setUser(userResponse.data);
             setIsEditing(false);
+            alert("User Updated!")
         } catch (error) {
             alert(
                 `Something went wrong: \n${handleError(error)}`
@@ -68,40 +73,36 @@ const Profile = () => {
         }
     }
 
-    useEffect(() => {
-        async function getUser() {
-            try {
-                var token = localStorage.getItem("token");
-                const response = await api.get("/users/" + user.id + "/" + token);
-                // setUser(response.data); //THIS CAUSES HAVOK
-                setAllowEdit(response.data.id === user.id);
-            }
-            catch (error) {
-                alert(`
+    async function getUser() {
+        try {
+            var token = localStorage.getItem("token");
+            const response = await api.get("/users/" + user.id + "/" + token);
+            setAllowEdit(response.data.id === user.id);
+        }
+        catch (error) {
+            alert(`
             ${handleError(error)}
             `);
-            }
         }
-        getUser();
-    },);
+    }
+    getUser();
 
     if (allowEdit) {
         if (isEditing) {
             return (
                 <BaseContainer className="profile container"> PROFILE PAGE
-                    <div className="profile edit container">
                         <FormField
-                        label = "change username"
-                        value = {username}
-                        onChange = {(un: string) => setUsername(un)}/>
+                            label="change username"
+                            value={username}
+                            onChange={(un: string) => setUsername(un)} />
                         <FormField
-                        label = "change birthday"
-                        value = {birthday}
-                        onChange = {(bd: string) => setBirthday(bd)}/>
-                    </div>
-                    
-                    <Button width="20%" onClick={() => doChange()}>Save Changes</Button>
-                    <Button width="20%" onClick={() => setIsEditing(false)}>Cancel</Button>
+                            label="change birthday"
+                            placeholder = "YYYY-MM-DD"
+                            value={birthday}
+                            onChange={(bd: string) => setBirthday(bd)} />
+
+                    <Button className = "profile editbutton" width="10%" onClick={() => doChange()}>Save Changes</Button>
+                    <Button width="10%" onClick={() => setIsEditing(false)}>Cancel</Button>
                 </BaseContainer>);
         }
         else {
@@ -109,6 +110,7 @@ const Profile = () => {
                 <BaseContainer className="profile container"> PROFILE PAGE
                     <ProfilePage user={user} />
                     <Button width="20%" onClick={() => setIsEditing(true)}>Edit Profile</Button>
+                    <Button width ="20%" onClick={() => navigate("/game")}>Back</Button>
                 </BaseContainer>);
         }
 
@@ -118,6 +120,7 @@ const Profile = () => {
             <BaseContainer className="profile container"> PROFILE PAGE
                 <ProfilePage user={user} />
                 <Button width="20%" onClick={() => alert("Editing not allowed!")}>Edit Profile</Button>
+                <Button width ="20%" onClick={() => navigate("/game")}>Back</Button>
             </BaseContainer>);
     }
 };

@@ -11,8 +11,8 @@ import { User } from "types";
 const Player = ({ user }: { user: User }) => (
   <div className="player container">
     <div className="player username">{user.username}</div>
-    {/* <div className="player name">{user.password}</div> */}
-    <div className="player id">id: {user.id}</div>
+    {/* <div className="player id">id: {user.id}</div> */}
+    <div className ="player view">view more</div>
   </div>
 );
 
@@ -31,8 +31,13 @@ const Game = () => {
   // more information can be found under https://react.dev/learn/state-a-components-memory and https://react.dev/reference/react/useState 
   const [users, setUsers] = useState<User[]>(null);
 
-  const logout = (): void => {
-    localStorage.removeItem("token");
+  const logout = async () => {
+    let id = localStorage.getItem("id");
+    if(id){
+      const response = await api.put("/users/" + id + "/"+ localStorage.getItem("token") + "/logout")
+      localStorage.removeItem("id");
+      localStorage.removeItem("token");
+    }
     navigate("/login");
   };
 
