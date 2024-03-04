@@ -44,7 +44,6 @@ const Register = () => {
 
       // Store the token into the local storage.
       localStorage.setItem("token", user.token);
-      console.log(user.token);
 
       alert(
         `${username} successfully registrated! Navigating to login page...`

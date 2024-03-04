@@ -32,34 +32,40 @@
   }
 }
 
-.player {
+.profilepage {
   &.container {
     margin: 0.5em 0;
     width: 25em;
     padding: 10px;
     border-radius: $borderRadius;
     display: flex;
+    flex-direction: column;
     align-items: center;
     background: lighten($background, 5);
   }
-  &.name {
-    font-weight: 300;
-    margin-left: 5px;
-  }
   &.username {
     font-weight: 500;
-    color: $accent;
-    margin-left: 5px;
-  }
-  &.id {
-    margin-left: auto;
-    margin-right: 10px;
-    font-family: $fontMono;
-    font-weight: 300;
+    font-size:x-large;
+    margin-bottom: 5px;
+    color:$accent;
   }
   &.birthday{
     font-family: $fontMono;
     font-weight:300;
-    margin-left:auto;
+  }
+  &.creationDate{
+    padding-top:10px;
+    font-family: $fontMono;
+    font-size: small;
+    font-style: italic;
+    font-weight:300;
+  }
+
+  &.statusOff{
+    color: red;
+  }
+
+  &.statusOn{
+    color:green;
   }
 }
