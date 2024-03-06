@@ -60,9 +60,8 @@ const Profile = () => {
     const doChange = async () => {
         try {
             const requestBody = JSON.stringify({ username, birthday });
-            var token = localStorage.getItem("token");
-            const response = await api.put("/users/" + user.id + "/" + token, requestBody);
-            const userResponse = await api.get("/users/" + user.id + "/" + token);
+            const response = await api.put(`/users/${user.id}`, requestBody);
+            const userResponse = await api.get(`/users/${user.id}`);
             setUser(userResponse.data);
             setIsEditing(false);
             alert("User Updated!")
@@ -75,8 +74,7 @@ const Profile = () => {
 
     async function getUser() {
         try {
-            var token = localStorage.getItem("token");
-            const response = await api.get("/users/" + user.id + "/" + token);
+            const response = await api.get(`/users/${user.id}`);
             setAllowEdit(response.data.id === user.id);
         }
         catch (error) {

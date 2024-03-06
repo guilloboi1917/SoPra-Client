@@ -49,6 +49,11 @@
     transition: all 0.3s ease;
     &:hover {
       transform: translateY(-2px);
+      &:after {
+        content: '\00bb';
+        transition: 0.5s;
+        opacity: 1;
+      }
     }
 
   }
@@ -73,6 +78,6 @@
   &.view {
     font-style: italic;
     margin-left: auto;
-    opacity: 25%;
+    opacity: 0;
   }
 }

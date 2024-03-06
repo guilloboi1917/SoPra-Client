@@ -46,6 +46,8 @@ const Register = () => {
       localStorage.setItem("token", user.token);
       //Store user data
       localStorage.setItem("id", user.id);
+      //Now we also set the global authorization header
+      api.defaults.headers.common['Authorization'] = localStorage.getItem("token");
 
       alert(
         `${username} successfully registrated! Navigating to login page...`
@@ -91,7 +93,7 @@ const Register = () => {
             onChange={(n) => setPassword(n)}
           />
           {/*Create button to switch to registration form*/}
-          <div className="switch login-register">
+          <div className="register button-container">
             <Button
               width="100%"
               onClick={() => doSwitch()}

@@ -12,7 +12,7 @@ const Player = ({ user }: { user: User }) => (
   <div className="player container">
     <div className="player username">{user.username}</div>
     {/* <div className="player id">id: {user.id}</div> */}
-    <div className ="player view">view more</div>
+    <div className ="player view">view</div>
   </div>
 );
 
@@ -33,8 +33,9 @@ const Game = () => {
 
   const logout = async () => {
     let id = localStorage.getItem("id");
-    if(id){
-      const response = await api.put("/users/" + id + "/"+ localStorage.getItem("token") + "/logout")
+    let token = localStorage.getItem("token");
+    if(id && token){
+      const response = await api.put(`/users/${localStorage.getItem("id")}/logout`);
       localStorage.removeItem("id");
       localStorage.removeItem("token");
     }

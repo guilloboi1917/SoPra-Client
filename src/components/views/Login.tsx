@@ -58,6 +58,8 @@ const Login = () => {
       //Store user data
       localStorage.setItem("id", user.id);
 
+      //Now we also set the global authorization header
+      api.defaults.headers.common['Authorization'] = localStorage.getItem("token");
 
       // Login successfully worked --> navigate to the route /game in the GameRouter
       navigate("/game");
@@ -78,7 +80,7 @@ const Login = () => {
         `Could not switch to registration form: \n${handleError(error)}`
       );
     }
-  }
+  };
 
   return (
     <BaseContainer>
@@ -95,7 +97,7 @@ const Login = () => {
             onChange={(n) => setPassword(n)}
           />
           {/*Create button to switch to registration form*/}
-          <div className="switch login-register">
+          <div className="login button-container">
             <Button
               width="100%"
               onClick={() => doSwitch()}
