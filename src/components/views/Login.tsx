@@ -59,7 +59,7 @@ const Login = () => {
       localStorage.setItem("id", user.id);
 
       //Now we also set the global authorization header
-      api.defaults.headers.common['Authorization'] = localStorage.getItem("token");
+      api.defaults.headers.common["Authorization"] = localStorage.getItem("token");
 
       // Login successfully worked --> navigate to the route /game in the GameRouter
       navigate("/game");

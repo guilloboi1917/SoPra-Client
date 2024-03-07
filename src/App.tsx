@@ -24,10 +24,10 @@ const App = () => {
       doLogout();
     };
 
-    window.addEventListener('beforeunload', handleTabClose);
+    window.addEventListener("beforeunload", handleTabClose);
 
     return () => {
-      window.removeEventListener('beforeunload', handleTabClose);
+      window.removeEventListener("beforeunload", handleTabClose);
     };
   }, []);
 
