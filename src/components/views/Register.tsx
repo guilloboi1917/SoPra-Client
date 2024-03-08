@@ -9,10 +9,12 @@ import PropTypes from "prop-types";
 
 const FormField = (props) => {
   return (
-    <div className="register field">
-      <label className="register label">{props.label}</label>
+    <div className="login field">
+      <label className="login label">{props.label}</label>
       <input
-        className="register input"
+        className="login input"
+        id = {props.id}
+        type={props.type}
         placeholder="enter here.."
         value={props.value}
         onChange={(e) => props.onChange(e.target.value)}
@@ -25,7 +27,18 @@ FormField.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func,
+  type: PropTypes.string,
+  id: PropTypes.string,
 };
+
+const doSwitchPasswordVisibility = () => {
+  let x = document.getElementById("password") as HTMLInputElement;
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
 
 const Register = () => {
   const navigate = useNavigate();
@@ -90,15 +103,21 @@ const Register = () => {
           <FormField
             label="Password"
             value={password}
+            type="password"
+            id = "password"
             onChange={(n) => setPassword(n)}
           />
+          <div className="password visibility">
+            <input type="checkbox" name="show password" value="false" onClick={() => doSwitchPasswordVisibility()} />
+            <label htmlFor="show password">Show Password</label>
+          </div>
           {/*Create button to switch to registration form*/}
           <div className="register button-container">
             <Button
               width="100%"
               onClick={() => doSwitch()}
             >
-              Switch
+              Switch to Login
             </Button>
           </div>
           <div className="register button-container">

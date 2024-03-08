@@ -19,6 +19,8 @@ const FormField = (props) => {
       <label className="login label">{props.label}</label>
       <input
         className="login input"
+        id = {props.id}
+        type={props.type}
         placeholder="enter here.."
         value={props.value}
         onChange={(e) => props.onChange(e.target.value)}
@@ -31,14 +33,25 @@ FormField.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func,
+  type: PropTypes.string,
+  id: PropTypes.string,
 };
+
+const doSwitchPasswordVisibility = () => {
+  let x = document.getElementById("password") as HTMLInputElement;
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
 
 const Login = () => {
   //remove any token residual
-  if(localStorage.getItem("token")){
+  if (localStorage.getItem("token")) {
     localStorage.removeItem("token");
   }
-  if(localStorage.getItem("id")){
+  if (localStorage.getItem("id")) {
     localStorage.removeItem("id");
   }
   const navigate = useNavigate();
@@ -47,7 +60,7 @@ const Login = () => {
 
   const doLogin = async () => {
     try {
-      const requestBody = JSON.stringify( {username, password} );
+      const requestBody = JSON.stringify({ username, password });
       const authenticateResponse = await api.post("/users/authenticate/", requestBody);
       // Get the returned user and update a new object.
       const user = new User(authenticateResponse.data);
@@ -94,15 +107,21 @@ const Login = () => {
           <FormField
             label="Password"
             value={password}
+            type="password"
+            id = "password"
             onChange={(n) => setPassword(n)}
           />
+          <div className="passwordvisibility">
+            <input type="checkbox" name="show password" value="false" onClick={() => doSwitchPasswordVisibility()} />
+            <label htmlFor="show password">Show Password</label>
+          </div>
           {/*Create button to switch to registration form*/}
           <div className="login button-container">
             <Button
               width="100%"
               onClick={() => doSwitch()}
             >
-              Switch
+              Switch to Registration
             </Button>
           </div>
           <div className="login button-container">
