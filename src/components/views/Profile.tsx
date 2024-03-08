@@ -14,7 +14,7 @@ const ProfilePage = ({ user }: { user: User }) => (
     <div className="profilepage container">
         <div className="profilepage username">{user.username}</div>
         <div className={user.status === "ONLINE" ? "profilepage statusOn" : "profilepage statusOff"}>{user.status}</div>
-        <div className="profilepage birthday">Birthday: {user.birthday = user.birthday !== null ? user.birthday : "N/A"}</div>
+        {user.birthday && <div className="profilepage birthday">Birthday: {user.birthday}</div>}
         <div className="profilepage creationDate">created on: {user.creationDate}</div>
     </div>
 )
@@ -26,13 +26,14 @@ ProfilePage.propTypes = {
 //SET classnames for appropriate scss
 const FormField = (props) => {
     return (
-        <div className="login field">
-            <label className="login label">{props.label}</label>
+        <div className="profile field">
+            <label className="profile label">{props.label}</label>
             <input
-                className="login input"
-                placeholder= {props.placeholder !== null ? props.placeholder :"enter here.."}
+                className="profile input"
+                placeholder={props.placeholder !== null ? props.placeholder : "enter here.."}
                 value={props.value}
                 onChange={(e) => props.onChange(e.target.value)}
+                type={props.type}
             />
         </div>
     );
@@ -43,6 +44,7 @@ FormField.propTypes = {
     value: PropTypes.string,
     placeholder: PropTypes.string,
     onChange: PropTypes.func,
+    type: PropTypes.type,
 };
 
 const Profile = () => {
@@ -54,8 +56,10 @@ const Profile = () => {
     const [user, setUser] = useState<User>(data);
     const [allowEdit, setAllowEdit] = useState<Boolean>(false);
     const [isEditing, setIsEditing] = useState<Boolean>(false);
-    const [birthday, setBirthday] = useState<String>(user.birthday);
-    const [username, setUsername] = useState<String>(user.username);
+    const [birthday, setBirthday] = useState<Date>(user.birthday);
+    const [username, setUsername] = useState<Date>(user.username);
+
+    console.log(user);
 
     const doChange = async () => {
         try {
@@ -89,18 +93,20 @@ const Profile = () => {
         if (isEditing) {
             return (
                 <BaseContainer className="profile container"> PROFILE PAGE
+                    <div className="profilepage container">
                         <FormField
                             label="change username"
                             value={username}
                             onChange={(un: string) => setUsername(un)} />
                         <FormField
                             label="change birthday"
-                            placeholder = "YYYY-MM-DD"
+                            placeholder={new Date(0)}
+                            type="date"
                             value={birthday}
-                            onChange={(bd: string) => setBirthday(bd)} />
-
-                    <Button className = "profile editbutton" width="10%" onClick={() => doChange()}>Save Changes</Button>
-                    <Button width="10%" onClick={() => setIsEditing(false)}>Cancel</Button>
+                            onChange={(bd: Date) => setBirthday(bd)} />
+                    </div>
+                    <Button className="profile editbutton" width="20%" onClick={() => doChange()}>Save Changes</Button>
+                    <Button width="20%" onClick={() => setIsEditing(false)}>Cancel</Button>
                 </BaseContainer>);
         }
         else {
@@ -108,7 +114,7 @@ const Profile = () => {
                 <BaseContainer className="profile container"> PROFILE PAGE
                     <ProfilePage user={user} />
                     <Button width="20%" onClick={() => setIsEditing(true)}>Edit Profile</Button>
-                    <Button width ="20%" onClick={() => navigate("/game")}>Back</Button>
+                    <Button width="20%" onClick={() => navigate("/game")}>Back</Button>
                 </BaseContainer>);
         }
 
@@ -118,7 +124,7 @@ const Profile = () => {
             <BaseContainer className="profile container"> PROFILE PAGE
                 <ProfilePage user={user} />
                 <Button width="20%" onClick={() => alert("Editing not allowed!")}>Edit Profile</Button>
-                <Button width ="20%" onClick={() => navigate("/game")}>Back</Button>
+                <Button width="20%" onClick={() => navigate("/game")}>Back</Button>
             </BaseContainer>);
     }
 };

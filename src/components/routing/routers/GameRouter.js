@@ -1,11 +1,12 @@
 import React from "react";
-import {Navigate, Route, Routes} from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Game from "../../views/Game";
 import PropTypes from "prop-types";
+import Profile from "../../views/Profile";
 
 const GameRouter = () => {
   return (
-    <div style={{display: "flex", flexDirection: "column"}}>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <Routes>
 
         <Route path="" element={<Game />} />
@@ -15,7 +16,7 @@ const GameRouter = () => {
         <Route path="*" element={<Navigate to="dashboard" replace />} />
 
       </Routes>
-   
+
     </div>
   );
 };

@@ -20,9 +20,9 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/game/profile" element={<Profile />} />
 
         <Route path="/game/*" element={<GameGuard />}>
+          <Route path="profile" element={<Profile />} />
           <Route path="/game/*" element={<GameRouter base="/game" />} />
         </Route>
 
@@ -33,7 +33,7 @@ const AppRouter = () => {
         <Route path="/register" element={<Register />} />
 
         <Route path="/" element={
-          <Navigate to="/game" replace />
+          <Navigate to="/login" replace />
         } />
 
       </Routes>

@@ -1,8 +1,8 @@
 export type User = {
   username: string;
   password: string;
-  birthday: string;
+  birthday: Date;
   status: string;
-  creationDate: string;
+  creationDate: Date;
   id: number;
 };
